@@ -274,21 +274,18 @@ function App() {
                     </div>
                 </div>
                 
-                <div className="step">
-                    <div className="step-number">3</div>
-                    <div className="step-content w-full">
-                        <span className="step-title">IP'yi Gir</span>
-                        {/* KESİN ÇÖZÜM: flex ve min-h ekleyerek taşmayı bitirdik */}
-                        <div className="inline-ip min-h-[40px] py-1 px-2 flex items-center justify-between" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
-                            <span className="mc-font text-[9px] sm:text-xs leading-none break-all">
-                                {SERVER_IP}
-                            </span>
-                            <i className="fa-solid fa-copy text-[10px] ml-1 flex-shrink-0"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div className="step">
+    <div className="step-number">3</div>
+    <div className="step-content w-full">
+        <span className="step-title">IP'yi Gir</span>
+        <div className="inline-ip h-auto min-h-[40px] py-2 px-3 flex flex-wrap items-center justify-center gap-2" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
+            <span className="mc-font text-[10px] xs:text-xs leading-tight break-all text-center">
+                {SERVER_IP}
+            </span>
+            <i className="fa-solid fa-copy text-xs flex-shrink-0"></i>
         </div>
+    </div>
+</div>
       </main>
 
       <div id="toast" className={`toast ${toast.show ? '' : 'hidden'}`}>
