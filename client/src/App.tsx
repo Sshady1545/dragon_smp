@@ -14,7 +14,6 @@ function App() {
   const [status, setStatus] = useState<ServerStatus | null>(null);
   const [toast, setToast] = useState<{ show: boolean; title: string; desc: string }>({ show: false, title: '', desc: '' });
   
-  // Easter Egg State
   const [keyBuffer, setKeyBuffer] = useState('');
   const [showSecret, setShowSecret] = useState(false);
   const [secretInput, setSecretInput] = useState('');
@@ -23,7 +22,6 @@ function App() {
   const SERVER_IP = 'dragonsmp.shock.gg';
 
   useEffect(() => {
-    // Initialize Particles
     const createParticles = () => {
       const container = document.getElementById('particles');
       if (!container) return;
@@ -66,11 +64,9 @@ function App() {
     createParticles();
     checkServerStatus();
     const interval = setInterval(checkServerStatus, 30000);
-
     return () => clearInterval(interval);
   }, []);
 
-  // Easter Egg Key Listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (showSecret) {
@@ -133,7 +129,6 @@ function App() {
         <div className="nav-content">
           <div className="nav-left">
             <div className="logo-glow">
-              {/* Logo yolunu daha güvenli hale getirdik */}
               <img src="/images/logo.png" alt="Logo" className="nav-logo-img" />
             </div>
             <div className="nav-title-group">
@@ -169,30 +164,20 @@ function App() {
             </div>
           </div>
           
-          <div 
-            className="ip-container" 
-            onClick={() => copyToClipboard(SERVER_IP)}
-            id="copy-ip"
-          >
-            <div className="ip-icon">
-              <i className="fa-solid fa-server"></i>
-            </div>
+          <div className="ip-container" onClick={() => copyToClipboard(SERVER_IP)} id="copy-ip">
+            <div className="ip-icon"><i className="fa-solid fa-server"></i></div>
             <div className="ip-content">
               <span className="ip-label">SERVER IP</span>
               <span className="ip-text">{SERVER_IP}</span>
             </div>
-            <div className="ip-copy-btn">
-              <i className="fa-regular fa-copy"></i>
-            </div>
+            <div className="ip-copy-btn"><i className="fa-regular fa-copy"></i></div>
           </div>
         </div>
 
         <div className="card store-card" data-modal="store" onClick={() => showToast('STORE YAKINDA!', 'Bu özellik yakında aktif olacak')}>
             <div className="card-shine"></div>
             <div className="overlay">
-                <div className="card-icon">
-                    <i className="fa-solid fa-shopping-cart"></i>
-                </div>
+                <div className="card-icon"><i className="fa-solid fa-shopping-cart"></i></div>
                 <h2>STORE</h2>
                 <p>Marketten alışveriş yapın</p>
                 <div className="card-badge">YAKINDA</div>
@@ -203,35 +188,22 @@ function App() {
 
         <div className="card social-card">
             <div className="card-shine"></div>
-            <h3 className="card-title">
-                <i className="fa-solid fa-users"></i>
-                TOPLULUK
-            </h3>
-            
+            <h3 className="card-title"><i className="fa-solid fa-users"></i> TOPLULUK</h3>
             <a href="https://youtube.com/@Sshady1545" target="_blank" className="social-box yt">
-                <div className="social-icon">
-                    <i className="fab fa-youtube"></i>
-                </div>
+                <div className="social-icon"><i className="fab fa-youtube"></i></div>
                 <div className="social-info">
                     <strong className="social-number">4,000+</strong>
                     <span className="social-label">YouTube Abonesi</span>
                 </div>
-                <div className="social-arrow">
-                    <i className="fa-solid fa-arrow-right"></i>
-                </div>
+                <div className="social-arrow"><i className="fa-solid fa-arrow-right"></i></div>
             </a>
-            
             <a href="https://discord.gg/JUj7SHGdF6" target="_blank" className="social-box dc">
-                <div className="social-icon">
-                    <i className="fab fa-discord"></i>
-                </div>
+                <div className="social-icon"><i className="fab fa-discord"></i></div>
                 <div className="social-info">
                     <strong className="social-number">1,000+</strong>
                     <span className="social-label">Discord Üyesi</span>
                 </div>
-                <div className="social-arrow">
-                    <i className="fa-solid fa-arrow-right"></i>
-                </div>
+                <div className="social-arrow"><i className="fa-solid fa-arrow-right"></i></div>
             </a>
             <div className="hover-border"></div>
         </div>
@@ -239,9 +211,7 @@ function App() {
         <div className="card stats-card" data-modal="stats" onClick={() => showToast('İSTATİSTİKLER YAKINDA!', 'Bu özellik yakında aktif olacak')}>
             <div className="card-shine"></div>
             <div className="overlay">
-                <div className="card-icon">
-                    <i className="fa-solid fa-chart-line"></i>
-                </div>
+                <div className="card-icon"><i className="fa-solid fa-chart-line"></i></div>
                 <h2>STATS</h2>
                 <p>Oyuncu istatistikleri</p>
                 <div className="card-badge">YAKINDA</div>
@@ -256,7 +226,6 @@ function App() {
                 <i className="fa-solid fa-gamepad"></i>
                 <h3>NASIL KATILIRIM?</h3>
             </div>
-            
             <div className="join-steps">
                 <div className="step">
                     <div className="step-number">1</div>
@@ -265,7 +234,6 @@ function App() {
                         <span className="step-desc">Bedrock/Java Edition 1.8+</span>
                     </div>
                 </div>
-                
                 <div className="step">
                     <div className="step-number">2</div>
                     <div className="step-content">
@@ -273,25 +241,25 @@ function App() {
                         <span className="step-desc">Ana menüden seç</span>
                     </div>
                 </div>
-                
-<div className="step">
-    <div className="step-number">3</div>
-    <div className="step-content w-full">
-        <span className="step-title">IP'yi Gir</span>
-        <div className="inline-ip h-auto min-h-[40px] py-1 px-2 flex items-center justify-between gap-2" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
-            <span className="mc-font text-[9px] sm:text-xs leading-none break-all">
-                {SERVER_IP}
-            </span>
-            <i className="fa-solid fa-copy text-[10px] flex-shrink-0"></i>
+                <div className="step">
+                    <div className="step-number">3</div>
+                    <div className="step-content w-full">
+                        <span className="step-title">IP'yi Gir</span>
+                        <div className="inline-ip h-auto min-h-[40px] py-1 px-2 flex items-center justify-between gap-2" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
+                            <span className="mc-font text-[9px] sm:text-xs leading-none break-all">
+                                {SERVER_IP}
+                            </span>
+                            <i className="fa-solid fa-copy text-[10px] flex-shrink-0"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="hover-border"></div>
         </div>
-    </div>
-</div>
       </main>
 
       <div id="toast" className={`toast ${toast.show ? '' : 'hidden'}`}>
-        <div className="toast-icon">
-            <i className="fa-solid fa-check-circle"></i>
-        </div>
+        <div className="toast-icon"><i className="fa-solid fa-check-circle"></i></div>
         <div className="toast-content">
             <span className="toast-title">{toast.title}</span>
             <span className="toast-desc">{toast.desc}</span>
@@ -303,40 +271,19 @@ function App() {
         © 2026 DragonSMP | Official. All rights reserved.
       </footer>
 
-      {/* Easter Egg Modal */}
       {showSecret && (
-        <div 
-            className="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center p-4 backdrop-blur-sm"
-            onClick={(e) => {
-                if (e.target === e.currentTarget) {
-                    setShowSecret(false);
-                    setSecretInput('');
-                    setSecretMessage('');
-                }
-            }}
-        >
+        <div className="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center p-4 backdrop-blur-sm" onClick={(e) => e.target === e.currentTarget && setShowSecret(false)}>
             <div className="bg-gray-900 border border-red-500/50 p-8 rounded-2xl max-w-md w-full text-center relative shadow-[0_0_50px_rgba(255,0,0,0.2)]">
-                <button 
-                    onClick={() => {
-                        setShowSecret(false);
-                        setSecretInput('');
-                        setSecretMessage('');
-                    }}
-                    className="absolute top-4 right-4 text-gray-400 hover:text-white transition-all hover:rotate-90 z-50 w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10"
-                >
+                <button onClick={() => setShowSecret(false)} className="absolute top-4 right-4 text-gray-400 hover:text-white">
                     <i className="fa-solid fa-xmark text-2xl"></i>
                 </button>
-                
                 <h2 className="text-4xl font-bold text-red-500 mb-8 tracking-widest animate-pulse">:)</h2>
-                
                 {!secretMessage ? (
                     <input 
-                        type="text" 
-                        value={secretInput}
+                        type="text" value={secretInput}
                         onChange={(e) => {
                             const val = e.target.value.toLowerCase();
                             setSecretInput(val);
-                            
                             if (['bay4lly', 'gofret', 'forget1221'].includes(val)) {
                                 setSecretMessage('bu site Bay4lly tarafından kodlanmıştır');
                             } else if (val === 'shady1545') {
@@ -348,14 +295,12 @@ function App() {
                             }
                         }}
                         placeholder="..."
-                        className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-red-500 focus:outline-none transition-colors text-center font-mono tracking-wider"
+                        className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white text-center font-mono"
                         autoFocus
                     />
                 ) : (
                     <div className="animate-pulse">
-                        <p className="text-xl font-bold text-white tracking-wide leading-relaxed font-mono">
-                            {secretMessage}
-                        </p>
+                        <p className="text-xl font-bold text-white font-mono">{secretMessage}</p>
                     </div>
                 )}
             </div>
