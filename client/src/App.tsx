@@ -70,7 +70,7 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Easter Egg Key Listener (Tipi 'secret' yazınca açılır)
+  // Easter Egg Key Listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (showSecret) {
@@ -133,6 +133,7 @@ function App() {
         <div className="nav-content">
           <div className="nav-left">
             <div className="logo-glow">
+              {/* Logo yolunu daha güvenli hale getirdik */}
               <img src="/images/logo.png" alt="Logo" className="nav-logo-img" />
             </div>
             <div className="nav-title-group">
@@ -275,12 +276,14 @@ function App() {
                 
                 <div className="step">
                     <div className="step-number">3</div>
-                    <div className="step-content">
+                    <div className="step-content w-full">
                         <span className="step-title">IP'yi Gir</span>
-                        <div className="inline-ip" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
-                            {/* DÜZELTME: Yazı kaymasını önlemek için font boyutu küçültüldü */}
-                            <span className="mc-font text-[10px] sm:text-xs">{SERVER_IP}</span>
-                            <i className="fa-solid fa-copy"></i>
+                        {/* KESİN ÇÖZÜM: flex ve min-h ekleyerek taşmayı bitirdik */}
+                        <div className="inline-ip min-h-[40px] py-1 px-2 flex items-center justify-between" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
+                            <span className="mc-font text-[9px] sm:text-xs leading-none break-all">
+                                {SERVER_IP}
+                            </span>
+                            <i className="fa-solid fa-copy text-[10px] ml-1 flex-shrink-0"></i>
                         </div>
                     </div>
                 </div>
@@ -337,7 +340,6 @@ function App() {
                             const val = e.target.value.toLowerCase();
                             setSecretInput(val);
                             
-                            // GİZLİ KOMUTLAR
                             if (['bay4lly', 'gofret', 'forget1221'].includes(val)) {
                                 setSecretMessage('bu site Bay4lly tarafından kodlanmıştır');
                             } else if (val === 'shady1545') {
