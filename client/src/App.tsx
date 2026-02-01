@@ -262,7 +262,7 @@ function App() {
                     <div className="step-number">1</div>
                     <div className="step-content">
                         <span className="step-title">Minecraft'ı Aç</span>
-                        <span className="step-desc">Bedrock/Java Edition 1.8-1.21.11</span>
+                        <span className="step-desc">Bedrock/Java Edition 1.8+</span>
                     </div>
                 </div>
                 
