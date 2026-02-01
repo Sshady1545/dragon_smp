@@ -231,7 +231,7 @@ function App() {
                     <div className="step-number">1</div>
                     <div className="step-content">
                         <span className="step-title">Minecraft'ı Aç</span>
-                        <span className="step-desc">Bedrock/Java Edition 1.8+</span>
+                        <span className="step-desc">Bedrock/Java Edition 1.8-1.21.11</span>
                     </div>
                 </div>
                 <div className="step">
@@ -245,8 +245,9 @@ function App() {
                     <div className="step-number">3</div>
                     <div className="step-content w-full">
                         <span className="step-title">IP'yi Gir</span>
-                        <div className="inline-ip h-auto min-h-[40px] py-1 px-2 flex items-center justify-between gap-2" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
-                            <span className="mc-font text-[9px] sm:text-xs leading-none break-all">
+                        {/* KESİN ÇÖZÜM: 'g' harfinin sığması için metin boyutunu küçülttük ve flex ayarı yaptık */}
+                        <div className="inline-ip min-h-[40px] py-1 px-2 flex items-center justify-between gap-1 overflow-hidden" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
+                            <span className="mc-font text-[8px] sm:text-[10px] whitespace-nowrap">
                                 {SERVER_IP}
                             </span>
                             <i className="fa-solid fa-copy text-[10px] flex-shrink-0"></i>
