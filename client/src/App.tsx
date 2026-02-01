@@ -23,7 +23,7 @@ function App() {
   const SERVER_IP = 'dragonsmp.shock.gg';
 
   useEffect(() => {
-    // Initialize Particles (Simple implementation for React)
+    // Initialize Particles
     const createParticles = () => {
       const container = document.getElementById('particles');
       if (!container) return;
@@ -70,7 +70,7 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Easter Egg Key Listener
+  // Easter Egg Key Listener (Tipi 'secret' yazınca açılır)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (showSecret) {
@@ -110,7 +110,6 @@ function App() {
     navigator.clipboard.writeText(text).then(() => {
       showToast(message, "IP adresi panoya kopyalandı");
     }).catch(() => {
-      // Fallback
       const textArea = document.createElement('textarea');
       textArea.value = text;
       document.body.appendChild(textArea);
@@ -128,10 +127,8 @@ function App() {
 
   return (
     <div>
-      {/* Background Particles */}
       <div className="particles-bg" id="particles"></div>
 
-      {/* Top Navigation */}
       <header className="top-nav">
         <div className="nav-content">
           <div className="nav-left">
@@ -159,8 +156,6 @@ function App() {
       </header>
 
       <main className="main-container">
-        
-        {/* Left Column */}
         <div className="left-column">
           <div className="card logo-card">
             <div className="logo-ring"></div>
@@ -191,7 +186,6 @@ function App() {
           </div>
         </div>
 
-        {/* Store Card */}
         <div className="card store-card" data-modal="store" onClick={() => showToast('STORE YAKINDA!', 'Bu özellik yakında aktif olacak')}>
             <div className="card-shine"></div>
             <div className="overlay">
@@ -206,7 +200,6 @@ function App() {
             <div className="hover-border"></div>
         </div>
 
-        {/* Social Card */}
         <div className="card social-card">
             <div className="card-shine"></div>
             <h3 className="card-title">
@@ -242,7 +235,6 @@ function App() {
             <div className="hover-border"></div>
         </div>
 
-        {/* Stats Card */}
         <div className="card stats-card" data-modal="stats" onClick={() => showToast('İSTATİSTİKLER YAKINDA!', 'Bu özellik yakında aktif olacak')}>
             <div className="card-shine"></div>
             <div className="overlay">
@@ -257,7 +249,6 @@ function App() {
             <div className="hover-border"></div>
         </div>
 
-        {/* Join Card */}
         <div className="card join-card">
             <div className="card-shine"></div>
             <div className="join-header">
@@ -287,17 +278,16 @@ function App() {
                     <div className="step-content">
                         <span className="step-title">IP'yi Gir</span>
                         <div className="inline-ip" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
-                            <span className="mc-font">{SERVER_IP}</span>
+                            {/* DÜZELTME: Yazı kaymasını önlemek için font boyutu küçültüldü */}
+                            <span className="mc-font text-[10px] sm:text-xs">{SERVER_IP}</span>
                             <i className="fa-solid fa-copy"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
       </main>
 
-      {/* Toast Notification */}
       <div id="toast" className={`toast ${toast.show ? '' : 'hidden'}`}>
         <div className="toast-icon">
             <i className="fa-solid fa-check-circle"></i>
@@ -310,7 +300,7 @@ function App() {
       </div>
       
       <footer className="text-center py-6 text-gray-600 text-xs relative z-10">
-        © 2026 DragonSMP. All rights reserved.
+        © 2026 DragonSMP | Official. All rights reserved.
       </footer>
 
       {/* Easter Egg Modal */}
@@ -344,10 +334,18 @@ function App() {
                         type="text" 
                         value={secretInput}
                         onChange={(e) => {
-                            const val = e.target.value;
+                            const val = e.target.value.toLowerCase();
                             setSecretInput(val);
-                            if (['bay4lly', 'gofret', 'forget1221'].includes(val.toLowerCase())) {
+                            
+                            // GİZLİ KOMUTLAR
+                            if (['bay4lly', 'gofret', 'forget1221'].includes(val)) {
                                 setSecretMessage('bu site Bay4lly tarafından kodlanmıştır');
+                            } else if (val === 'shady1545') {
+                                setSecretMessage('Shady1545 YouTube Kanalına Gidiliyor...');
+                                setTimeout(() => window.open('https://youtube.com/@Sshady1545', '_blank'), 1000);
+                            } else if (val === 'robotic1545') {
+                                setSecretMessage('Robotic1545 YouTube Kanalına Gidiliyor...');
+                                setTimeout(() => window.open('https://youtube.com/@ofc-exelux', '_blank'), 1000);
                             }
                         }}
                         placeholder="..."
