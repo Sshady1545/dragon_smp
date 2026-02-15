@@ -19,7 +19,11 @@ function App() {
   const [secretInput, setSecretInput] = useState('');
   const [secretMessage, setSecretMessage] = useState('');
 
+  // Form Modal durumu
+  const [showForm, setShowForm] = useState(false);
+
   const SERVER_IP = 'dragonsmp.shock.gg';
+  const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdwCv4goir8J8XQ1jxoGbFdnV5MzK96DSA7PAVIhcf8EsLuAw/viewform?embedded=true";
 
   useEffect(() => {
     const createParticles = () => {
@@ -208,13 +212,14 @@ function App() {
             <div className="hover-border"></div>
         </div>
 
-        <div className="card stats-card" data-modal="stats" onClick={() => showToast('İSTATİSTİKLER YAKINDA!', 'Bu özellik yakında aktif olacak')}>
+        {/* GÜNCELLENEN STATS KARTI (BAŞVURU KARTI OLDU) */}
+        <div className="card stats-card" onClick={() => setShowForm(true)}>
             <div className="card-shine"></div>
             <div className="overlay">
-                <div className="card-icon"><i className="fa-solid fa-chart-line"></i></div>
-                <h2>STATS</h2>
-                <p>Oyuncu istatistikleri</p>
-                <div className="card-badge">YAKINDA</div>
+                <div className="card-icon"><i className="fa-solid fa-id-badge"></i></div>
+                <h2>YETKİ BAŞVURUSU</h2>
+                <p>Ekibimize katılmak için formu doldurun</p>
+                <div className="card-badge !bg-green-600">AKTİF</div>
             </div>
             <img src="/images/stats.jpg" className="card-bg-img" />
             <div className="hover-border"></div>
@@ -245,7 +250,6 @@ function App() {
                     <div className="step-number">3</div>
                     <div className="step-content w-full">
                         <span className="step-title">IP'yi Gir</span>
-                        {/* KESİN ÇÖZÜM: 'g' harfinin sığması için metin boyutunu küçülttük ve flex ayarı yaptık */}
                         <div className="inline-ip min-h-[40px] py-1 px-2 flex items-center justify-between gap-1 overflow-hidden" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
                             <span className="mc-font text-[8px] sm:text-[10px] whitespace-nowrap">
                                 {SERVER_IP}
@@ -258,6 +262,29 @@ function App() {
             <div className="hover-border"></div>
         </div>
       </main>
+
+      {/* GOOGLE FORM MODAL (PENCERE) */}
+      {showForm && (
+        <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-md" onClick={() => setShowForm(false)}>
+            <div className="bg-[#1a1a1a] border border-red-500/30 w-full max-w-4xl h-[90vh] rounded-2xl relative flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
+                <div className="p-4 border-b border-white/10 flex justify-between items-center bg-[#222]">
+                    <h3 className="text-white font-bold tracking-wider">DRAGONSMP YETKİ BAŞVURU FORMU</h3>
+                    <button onClick={() => setShowForm(false)} className="text-white/50 hover:text-white transition-colors">
+                        <i className="fa-solid fa-xmark text-2xl"></i>
+                    </button>
+                </div>
+                <iframe 
+                    src={FORM_URL}
+                    className="w-full flex-grow"
+                    frameBorder="0" 
+                    marginHeight={0} 
+                    marginWidth={0}
+                >
+                    Yükleniyor...
+                </iframe>
+            </div>
+        </div>
+      )}
 
       <div id="toast" className={`toast ${toast.show ? '' : 'hidden'}`}>
         <div className="toast-icon"><i className="fa-solid fa-check-circle"></i></div>
