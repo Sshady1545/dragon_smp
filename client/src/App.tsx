@@ -18,6 +18,8 @@ function App() {
   const [showSecret, setShowSecret] = useState(false);
   const [secretInput, setSecretInput] = useState('');
   const [secretMessage, setSecretMessage] = useState('');
+
+  // Form Modal durumu
   const [showForm, setShowForm] = useState(false);
 
   const SERVER_IP = 'dragonsmp.shock.gg';
@@ -29,7 +31,7 @@ function App() {
       if (!container) return;
       container.innerHTML = '';
       
-      for (let i = 0; i < 35; i++) {
+      for (let i = 0; i < 35; i++) { // Parçacık sayısını biraz artırdık
         const particle = document.createElement('div');
         const size = Math.random() * 3 + 1;
         const startX = Math.random() * 100;
@@ -37,6 +39,7 @@ function App() {
         const duration = Math.random() * 20 + 15;
         const delay = Math.random() * 5;
         
+        // RENK DEĞİŞİMİ: Kırmızıdan Altın Sarısına (Ramazan Kandili Efekti)
         particle.style.cssText = `
           position: absolute;
           width: ${size}px;
@@ -52,12 +55,12 @@ function App() {
 
         const style = document.createElement('style');
         style.textContent = `
-          @keyframes float-particle-${i} {
-            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
-            10% { opacity: 0.6; }
-            50% { transform: translate(${(Math.random() - 0.5) * 150}px, ${(Math.random() - 0.5) * 150}px) scale(1.8); opacity: 0.9; }
-            90% { opacity: 0.5; }
-          }
+            @keyframes float-particle-${i} {
+                0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+                10% { opacity: 0.6; }
+                50% { transform: translate(${(Math.random() - 0.5) * 150}px, ${(Math.random() - 0.5) * 150}px) scale(1.8); opacity: 0.9; }
+                90% { opacity: 0.5; }
+            }
         `;
         document.head.appendChild(style);
         container.appendChild(particle);
@@ -105,9 +108,17 @@ function App() {
     }
   };
 
-  const copyToClipboard = (text: string, title: string = "IP ADRESİ KOPYALANDI!") => {
+  const copyToClipboard = (text: string, message: string = "IP ADRESİ KOPYALANDI!") => {
     navigator.clipboard.writeText(text).then(() => {
-      showToast(title, "Sunucu adresi başarıyla panoya kopyalandı.");
+      showToast(message, "IP adresi panoya kopyalandı");
+    }).catch(() => {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      showToast(message, "IP adresi panoya kopyalandı");
     });
   };
 
@@ -117,202 +128,237 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-200 selection:bg-[#fbbf24]/30 font-sans">
-      <div className="particles-bg fixed inset-0 opacity-40 pointer-events-none" id="particles"></div>
+    <div className="min-h-screen bg-[#020617] transition-colors duration-1000">
+      <div className="particles-bg opacity-60" id="particles"></div>
 
-      {/* ÜST MENÜ */}
-      <header className="sticky top-0 z-[60] bg-slate-950/80 border-b border-[#fbbf24]/20 backdrop-blur-lg">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <img src="/images/logo.png" className="w-10 h-10 drop-shadow-[0_0_8px_#fbbf24]" alt="Logo" />
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-black text-white tracking-tighter">DRAGONSMP</h1>
-              <p className="text-[10px] text-[#fbbf24] font-bold tracking-[0.3em] uppercase opacity-70">Ramazan Özel</p>
+      <header className="top-nav !bg-slate-950/80 !border-b-[#fbbf24]/30 backdrop-blur-md">
+        <div className="nav-content">
+          <div className="nav-left">
+            <div className="logo-glow !shadow-[0_0_20px_rgba(251,191,36,0.3)]">
+              <img src="/images/logo.png" alt="Logo" className="nav-logo-img" />
+            </div>
+            <div className="nav-title-group">
+              <span className="nav-title !text-[#fbbf24]">DRAGONSMP</span>
+              <span className="nav-subtitle text-slate-400">RAMAZAN ÖZEL</span>
             </div>
           </div>
-          <div className="flex items-center gap-3 bg-slate-900/50 px-4 py-2 rounded-2xl border border-[#fbbf24]/10">
-            <span className={`w-2 h-2 rounded-full ${status?.online ? 'bg-[#fbbf24] shadow-[0_0_10px_#fbbf24]' : 'bg-red-500'} animate-pulse`}></span>
-            <span className="text-[11px] font-bold tracking-widest uppercase">
-              {status?.online ? `${status.players.online} OYUNCU AKTİF` : 'BAĞLANILIYOR...'}
-            </span>
+          <div className="nav-right">
+            <div className="online-status !bg-slate-900/50 border border-[#fbbf24]/20" id="server-status">
+              <span className={`status-dot ${status?.online ? 'bg-amber-400 shadow-[0_0_10px_#fbbf24]' : 'bg-red-500'} block pulse`}></span>
+              <span className="status-text !text-slate-200">
+                {status?.online ? 'SUNUCU AKTİF' : 'BAĞLANIYOR...'}
+              </span>
+              {status?.online && (
+                <span className="player-number !bg-[#fbbf24] !text-black">{status.players.online}</span>
+              )}
+            </div>
           </div>
         </div>
+        <div className="nav-glow !from-[#fbbf24]/10"></div>
       </header>
 
-      {/* ANA İÇERİK IZGARASI */}
-      <main className="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
-        
-        {/* SOL SÜTUN: LOGO VE IP */}
-        <section className="space-y-6">
-          <div className="bg-slate-900/40 border border-[#fbbf24]/20 rounded-[2.5rem] p-12 aspect-square flex flex-col items-center justify-center relative group backdrop-blur-md">
-            <div className="absolute inset-0 bg-[#fbbf24]/10 blur-[60px] rounded-full group-hover:bg-[#fbbf24]/20 transition-all duration-700"></div>
-            <img src="/images/logo.png" className="relative w-48 h-48 drop-shadow-2xl" alt="Dragon Logo" />
-            <div className="absolute bottom-10 flex gap-2">
-               <div className="w-1.5 h-6 bg-[#fbbf24] rounded-full blur-[1px] animate-pulse"></div>
-               <div className="w-1.5 h-10 bg-[#f59e0b] rounded-full blur-[1px] animate-pulse delay-75"></div>
-               <div className="w-1.5 h-6 bg-[#fbbf24] rounded-full blur-[1px] animate-pulse delay-150"></div>
+      <main className="main-container">
+        <div className="left-column">
+          <div className="card logo-card !border-[#fbbf24]/20 !bg-slate-900/40">
+            <div className="logo-ring !border-[#fbbf24]/30"></div>
+            <div className="logo-ring ring-2 !border-[#fbbf24]/10"></div>
+            <img src="/images/logo.png" alt="DragonSMP" className="main-dragon-logo drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]" />
+            {/* Alevleri kandil ışığı rengine çevirdik */}
+            <div className="logo-flames">
+                <div className="flame !bg-[#fbbf24]"></div>
+                <div className="flame !bg-[#f59e0b]"></div>
+                <div className="flame !bg-[#fbbf24]"></div>
             </div>
           </div>
-
-          <div className="bg-[#fbbf24] p-5 rounded-3xl flex items-center justify-between cursor-pointer active:scale-95 transition-all group" onClick={() => copyToClipboard(SERVER_IP)}>
-            <div className="flex items-center gap-4 text-black">
-              <div className="w-12 h-12 bg-black/10 rounded-xl flex items-center justify-center text-xl">
-                <i className="fa-solid fa-moon"></i>
-              </div>
-              <div>
-                <p className="text-[10px] font-black opacity-60 uppercase tracking-widest leading-none mb-1">Sunucu Adresi</p>
-                <p className="text-lg font-bold tracking-tight">{SERVER_IP}</p>
-              </div>
+          
+          <div className="ip-container !bg-[#fbbf24] !text-black hover:!bg-[#f59e0b]" onClick={() => copyToClipboard(SERVER_IP)} id="copy-ip">
+            <div className="ip-icon"><i className="fa-solid fa-moon"></i></div>
+            <div className="ip-content">
+              <span className="ip-label !text-black/70">SUNUCU ADRESİ</span>
+              <span className="ip-text font-bold text-black">{SERVER_IP}</span>
             </div>
-            <i className="fa-regular fa-copy text-black/40 group-hover:text-black transition-colors"></i>
+            <div className="ip-copy-btn !text-black"><i className="fa-regular fa-copy"></i></div>
           </div>
-        </section>
+        </div>
 
-        {/* ORTA SÜTUN: MARKET VE TOPLULUK */}
-        <section className="space-y-6">
-          <div className="h-72 bg-slate-900/40 border border-[#fbbf24]/20 rounded-[2.5rem] relative overflow-hidden group cursor-pointer" onClick={() => showToast('YAKINDA!', 'Market Ramazan ayına özel indirimlerle açılacak.')}>
-            <img src="/images/store.png" className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-110 transition-transform duration-700" alt="Market" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent p-8 flex flex-col justify-end">
-               <span className="absolute top-6 right-6 px-3 py-1 bg-amber-600 text-white text-[10px] font-bold rounded-lg">YAKINDA</span>
-               <i className="fa-solid fa-star-and-crescent text-3xl text-[#fbbf24] mb-3"></i>
-               <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">MARKET</h2>
-               <p className="text-sm text-slate-400">Ramazan ayına özel ürünler</p>
+        <div className="card store-card !border-[#fbbf24]/20" data-modal="store" onClick={() => showToast('HAYIRLI RAMAZANLAR!', 'Market yakında özel indirimlerle açılacak')}>
+            <div className="card-shine opacity-10"></div>
+            <div className="overlay bg-gradient-to-t from-slate-950 to-transparent">
+                <div className="card-icon !text-[#fbbf24]"><i className="fa-solid fa-star-and-crescent"></i></div>
+                <h2 className="text-[#fbbf24]">MARKET</h2>
+                <p className="text-slate-300">Ramazan ayına özel ürünler</p>
+                <div className="card-badge !bg-amber-600 !text-white">YAKINDA</div>
             </div>
-          </div>
+            <img src="/images/store.png" className="card-bg-img opacity-40" />
+            <div className="hover-border !border-[#fbbf24]"></div>
+        </div>
 
-          <div className="p-8 bg-slate-900/40 border border-[#fbbf24]/20 rounded-[2.5rem] backdrop-blur-md">
-            <h3 className="text-xs font-black text-[#fbbf24] tracking-[0.2em] mb-6 uppercase flex items-center gap-2">
-              <i className="fa-solid fa-mosque"></i> Topluluk
-            </h3>
-            <div className="space-y-3">
-              <a href="https://youtube.com/@Sshady1545" target="_blank" className="flex items-center justify-between p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all border border-white/5">
-                <div className="flex items-center gap-4">
-                  <i className="fab fa-youtube text-red-500 text-xl"></i>
-                  <div>
-                    <p className="font-bold text-sm leading-none">4,000+</p>
-                    <p className="text-[10px] text-slate-500 uppercase font-medium">Abone</p>
-                  </div>
+        <div className="card social-card !bg-slate-900/40 !border-[#fbbf24]/20">
+            <div className="card-shine opacity-10"></div>
+            <h3 className="card-title !text-[#fbbf24]"><i className="fa-solid fa-mosque"></i> TOPLULUK</h3>
+            <a href="https://youtube.com/@Sshady1545" target="_blank" className="social-box yt !bg-red-900/20 border border-red-500/20">
+                <div className="social-icon"><i className="fab fa-youtube text-red-500"></i></div>
+                <div className="social-info">
+                    <strong className="social-number text-white">4,000+</strong>
+                    <span className="social-label text-slate-400">Abone</span>
                 </div>
-                <i className="fa-solid fa-chevron-right text-[10px] opacity-20"></i>
-              </a>
-              <a href="https://discord.gg/JUj7SHGdF6" target="_blank" className="flex items-center justify-between p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all border border-white/5">
-                <div className="flex items-center gap-4">
-                  <i className="fab fa-discord text-indigo-400 text-xl"></i>
-                  <div>
-                    <p className="font-bold text-sm leading-none">1,000+</p>
-                    <p className="text-[10px] text-slate-500 uppercase font-medium">Üye</p>
-                  </div>
+                <div className="social-arrow text-red-500"><i className="fa-solid fa-arrow-right"></i></div>
+            </a>
+            <a href="https://discord.gg/JUj7SHGdF6" target="_blank" className="social-box dc !bg-indigo-900/20 border border-indigo-500/20">
+                <div className="social-icon"><i className="fab fa-discord text-indigo-400"></i></div>
+                <div className="social-info">
+                    <strong className="social-number text-white">1,000+</strong>
+                    <span className="social-label text-slate-400">Üye</span>
                 </div>
-                <i className="fa-solid fa-chevron-right text-[10px] opacity-20"></i>
-              </a>
-            </div>
-          </div>
-        </section>
+                <div className="social-arrow text-indigo-400"><i className="fa-solid fa-arrow-right"></i></div>
+            </a>
+            <div className="hover-border !border-[#fbbf24]"></div>
+        </div>
 
-        {/* SAĞ SÜTUN: BAŞVURU VE KATILIM */}
-        <section className="space-y-6">
-          <div className="h-72 bg-slate-900/40 border border-[#fbbf24]/20 rounded-[2.5rem] relative overflow-hidden group cursor-pointer" onClick={() => setShowForm(true)}>
-            <img src="/images/stats.jpg" className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-110 transition-transform duration-700" alt="Başvuru" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent p-8 flex flex-col justify-end">
-               <span className="absolute top-6 right-6 px-3 py-1 bg-emerald-600 text-white text-[10px] font-bold rounded-lg animate-pulse">AKTİF</span>
-               <i className="fa-solid fa-scroll text-3xl text-[#fbbf24] mb-3"></i>
-               <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">BAŞVURU</h2>
-               <p className="text-sm text-slate-400">Rehberlik için ekibimize katılın</p>
+        <div className="card stats-card !border-[#fbbf24]/20" onClick={() => setShowForm(true)}>
+            <div className="card-shine opacity-10"></div>
+            <div className="overlay bg-gradient-to-t from-slate-950 to-transparent">
+                <div className="card-icon !text-[#fbbf24]"><i className="fa-solid fa-scroll"></i></div>
+                <h2 className="text-[#fbbf24]">REHBER BAŞVURUSU</h2>
+                <p className="text-slate-300">Ramazanda ekibimize katılın</p>
+                <div className="card-badge !bg-emerald-600 !text-white">AKTİF</div>
             </div>
-          </div>
+            <img src="/images/stats.jpg" className="card-bg-img opacity-40" />
+            <div className="hover-border !border-[#fbbf24]"></div>
+        </div>
 
-          <div className="p-8 bg-slate-900/40 border border-[#fbbf24]/20 rounded-[2.5rem] backdrop-blur-md">
-            <h3 className="text-xs font-black text-[#fbbf24] tracking-[0.2em] mb-6 uppercase">Nasıl Katılırım?</h3>
-            <div className="space-y-4">
-              {[
-                { n: '1', t: "Minecraft'ı Aç", s: 'Sürüm: 1.8 - 1.21.x' },
-                { n: '2', t: "Çoklu Oyuncu", s: 'Sunucu Ekle butonuna bas' },
-                { n: '3', t: "Adresi Yapıştır", s: SERVER_IP }
-              ].map((step) => (
-                <div key={step.n} className="flex gap-4">
-                  <span className="w-7 h-7 bg-[#fbbf24] text-black text-[10px] font-black rounded-xl flex items-center justify-center shrink-0 shadow-[0_4px_10px_rgba(251,191,36,0.2)]">
-                    {step.n}
-                  </span>
-                  <div>
-                    <p className="text-xs font-bold text-white">{step.t}</p>
-                    <p className="text-[10px] text-slate-500 font-medium uppercase tracking-tighter">{step.s}</p>
-                  </div>
+        <div className="card join-card !bg-slate-900/40 !border-[#fbbf24]/20">
+            <div className="card-shine opacity-10"></div>
+            <div className="join-header">
+                <i className="fa-solid fa-kaaba text-[#fbbf24]"></i>
+                <h3 className="text-[#fbbf24]">NASIL KATILIRIM?</h3>
+            </div>
+            <div className="join-steps">
+                <div className="step">
+                    <div className="step-number !bg-[#fbbf24] !text-black">1</div>
+                    <div className="step-content">
+                        <span className="step-title text-slate-200">Minecraft'ı Aç</span>
+                        <span className="step-desc text-slate-400 text-xs">Sürüm: 1.8 - 1.21.x</span>
+                    </div>
                 </div>
-              ))}
+                <div className="step">
+                    <div className="step-number !bg-[#fbbf24] !text-black">2</div>
+                    <div className="step-content">
+                        <span className="step-title text-slate-200">Çoklu Oyuncu</span>
+                        <span className="step-desc text-slate-400 text-xs">Sunucu Ekle butonuna bas</span>
+                    </div>
+                </div>
+                <div className="step">
+                    <div className="step-number !bg-[#fbbf24] !text-black">3</div>
+                    <div className="step-content w-full">
+                        <span className="step-title text-slate-200">Adresi Yapıştır</span>
+                        <div className="inline-ip !bg-black/40 !border-[#fbbf24]/40 !text-[#fbbf24] min-h-[40px] py-1 px-2 flex items-center justify-between gap-1 overflow-hidden" id="copy-ip-2" onClick={() => copyToClipboard(SERVER_IP)}>
+                            <span className="mc-font text-[8px] sm:text-[10px] whitespace-nowrap">
+                                {SERVER_IP}
+                            </span>
+                            <i className="fa-solid fa-copy text-[10px] flex-shrink-0"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </section>
+            <div className="hover-border !border-[#fbbf24]"></div>
+        </div>
       </main>
 
-      {/* FOOTER */}
-      <footer className="py-12 text-center relative z-10">
-        <div className="flex justify-center gap-4 mb-4 text-[#fbbf24]/20 text-xs">
-          <i className="fa-solid fa-star"></i>
-          <i className="fa-solid fa-moon text-lg"></i>
-          <i className="fa-solid fa-star"></i>
+{/* GOOGLE FORM MODAL - Ramazan Temalı */}
+{showForm && (
+  <div 
+    className="fixed inset-0 z-[9999] bg-slate-950/90 flex items-center justify-center p-2 sm:p-4 backdrop-blur-xl" 
+    onClick={() => setShowForm(false)}
+  >
+      <div 
+        className="bg-[#0f172a] border-2 border-[#fbbf24]/40 w-full max-w-5xl h-[90vh] rounded-3xl relative flex flex-col overflow-hidden shadow-[0_0_100px_rgba(251,191,36,0.1)]" 
+        onClick={e => e.stopPropagation()}
+      >
+          {/* Üst Bar */}
+          <div className="p-5 border-b border-[#fbbf24]/10 flex justify-between items-center bg-slate-900/50">
+              <div className="flex items-center gap-4">
+                  <img src="/images/logo.png" alt="Logo" className="w-10 h-10 object-contain drop-shadow-[0_0_8px_#fbbf24]" />
+                  <div>
+                    <h3 className="text-[#fbbf24] font-bold tracking-[0.2em] text-sm sm:text-lg">BAŞVURU FORMU</h3>
+                    <p className="text-slate-500 text-[10px] uppercase tracking-widest">DragonSMP Ekip Alımları</p>
+                  </div>
+              </div>
+              
+              <button 
+                onClick={() => setShowForm(false)} 
+                className="bg-[#fbbf24] hover:bg-[#f59e0b] text-black w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 active:scale-90 shadow-lg group"
+              >
+                  <i className="fa-solid fa-xmark text-2xl group-hover:rotate-90 transition-transform"></i>
+              </button>
+          </div>
+
+          {/* Form Alanı */}
+          <div className="flex-grow bg-white">
+              <iframe 
+                  src={FORM_URL}
+                  className="w-full h-full"
+                  frameBorder="0"
+              >
+                  Yükleniyor...
+              </iframe>
+          </div>
+      </div>
+  </div>
+)}
+
+      <div id="toast" className={`toast ${toast.show ? '' : 'hidden'} !bg-slate-900 !border-[#fbbf24]/50`}>
+        <div className="toast-icon !text-[#fbbf24]"><i className="fa-solid fa-moon"></i></div>
+        <div className="toast-content">
+            <span className="toast-title !text-[#fbbf24]">{toast.title}</span>
+            <span className="toast-desc text-slate-300">{toast.desc}</span>
         </div>
-        <p className="text-[10px] font-bold text-slate-600 tracking-[0.3em] uppercase">© 2026 DragonSMP | Hayırlı Ramazanlar</p>
+        <div className="toast-progress !bg-[#fbbf24]"></div>
+      </div>
+      
+      <footer className="text-center py-8 text-slate-500 text-xs relative z-10">
+        <div className="flex justify-center gap-4 mb-2 text-[#fbbf24]/40">
+            <i className="fa-solid fa-star"></i>
+            <i className="fa-solid fa-moon"></i>
+            <i className="fa-solid fa-star"></i>
+        </div>
+        © 2026 DragonSMP | Hayırlı Ramazanlar. All rights reserved.
       </footer>
 
-      {/* MODAL: BAŞVURU FORMU */}
-      {showForm && (
-        <div className="fixed inset-0 z-[9999] bg-slate-950/90 flex items-center justify-center p-4 backdrop-blur-xl" onClick={() => setShowForm(false)}>
-          <div className="bg-[#0f172a] border-2 border-[#fbbf24]/40 w-full max-w-5xl h-[85vh] rounded-[3rem] relative flex flex-col overflow-hidden shadow-2xl shadow-[#fbbf24]/5" onClick={e => e.stopPropagation()}>
-            <div className="p-6 border-b border-[#fbbf24]/10 flex justify-between items-center bg-slate-900/50">
-              <div className="flex items-center gap-4">
-                <img src="/images/logo.png" className="w-10 h-10 drop-shadow-[0_0_8px_#fbbf24]" alt="Logo" />
-                <h3 className="text-[#fbbf24] font-black tracking-widest text-lg uppercase italic">Başvuru Formu</h3>
-              </div>
-              <button onClick={() => setShowForm(false)} className="w-12 h-12 bg-[#fbbf24] hover:bg-[#f59e0b] text-black rounded-2xl flex items-center justify-center transition-all duration-300">
-                <i className="fa-solid fa-xmark text-xl"></i>
-              </button>
-            </div>
-            <iframe src={FORM_URL} className="flex-grow bg-white" title="Form">Yükleniyor...</iframe>
-          </div>
-        </div>
-      )}
-
-      {/* TOAST BİLDİRİMİ */}
-      {toast.show && (
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 border border-[#fbbf24]/50 p-4 rounded-3xl flex items-center gap-4 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="w-10 h-10 bg-[#fbbf24] rounded-2xl flex items-center justify-center text-black">
-            <i className="fa-solid fa-bell"></i>
-          </div>
-          <div>
-            <p className="text-[#fbbf24] font-bold text-xs uppercase tracking-widest">{toast.title}</p>
-            <p className="text-slate-400 text-[10px]">{toast.desc}</p>
-          </div>
-        </div>
-      )}
-
-      {/* GİZLİ MENÜ (SECRET) */}
       {showSecret && (
-        <div className="fixed inset-0 z-[100] bg-slate-950/98 flex flex-col items-center justify-center p-4 backdrop-blur-md" onClick={() => {setShowSecret(false); setSecretMessage(''); setSecretInput('');}}>
-          <div className="bg-slate-900 border border-[#fbbf24]/30 p-10 rounded-[3rem] max-w-md w-full text-center relative" onClick={e => e.stopPropagation()}>
-            <div className="text-5xl mb-6">🌙</div>
-            <h2 className="text-2xl font-black text-[#fbbf24] mb-8 tracking-[0.2em] uppercase italic">Gizli Dergah</h2>
-            {!secretMessage ? (
-              <input 
-                type="text" 
-                value={secretInput}
-                onChange={(e) => {
-                  const val = e.target.value.toLowerCase();
-                  setSecretInput(val);
-                  if (['bay4lly', 'gofret', 'forget1221'].includes(val)) {
-                    setSecretMessage('Bu kutsal site Bay4lly tarafından inşa edildi.');
-                  } else if (val === 'shady1545') {
-                    setSecretMessage('Shady1545 Dergahına Gidiliyor...');
-                    setTimeout(() => window.open('https://youtube.com/@Sshady1545', '_blank'), 1000);
-                  }
-                }}
-                placeholder="Anahtar kelime..."
-                className="w-full bg-black/40 border border-[#fbbf24]/20 rounded-2xl px-4 py-4 text-[#fbbf24] text-center font-mono focus:border-[#fbbf24] outline-none transition-all shadow-inner"
-                autoFocus
-              />
-            ) : (
-              <p className="text-lg font-bold text-slate-200 animate-pulse">{secretMessage}</p>
-            )}
-          </div>
+        <div className="fixed inset-0 z-[100] bg-slate-950/98 flex flex-col items-center justify-center p-4 backdrop-blur-md" onClick={(e) => e.target === e.currentTarget && setShowSecret(false)}>
+            <div className="bg-slate-900 border border-[#fbbf24]/30 p-10 rounded-3xl max-w-md w-full text-center relative shadow-[0_0_80px_rgba(251,191,36,0.1)]">
+                <button onClick={() => setShowSecret(false)} className="absolute top-6 right-6 text-slate-500 hover:text-[#fbbf24]">
+                    <i className="fa-solid fa-xmark text-2xl"></i>
+                </button>
+                <div className="text-5xl mb-6">🌙</div>
+                <h2 className="text-2xl font-bold text-[#fbbf24] mb-8 tracking-[0.3em] uppercase">Gizli Menü</h2>
+                {!secretMessage ? (
+                    <input 
+                        type="text" value={secretInput}
+                        onChange={(e) => {
+                            const val = e.target.value.toLowerCase();
+                            setSecretInput(val);
+                            if (['bay4lly', 'gofret', 'forget1221'].includes(val)) {
+                                setSecretMessage('Bu kutsal site Bay4lly tarafından inşa edildi.');
+                            } else if (val === 'shady1545') {
+                                setSecretMessage('Shady1545 Dergahına Gidiliyor...');
+                                setTimeout(() => window.open('https://youtube.com/@Sshady1545', '_blank'), 1000);
+                            } else if (val === 'robotic1545') {
+                                setSecretMessage('Robotic1545 YouTube Kanalına Gidiliyor...');
+                                setTimeout(() => window.open('https://youtube.com/@ofc-exelux', '_blank'), 1000);
+                            }
+                        }}
+                        placeholder="Anahtar kelime..."
+                        className="w-full bg-black/40 border border-[#fbbf24]/20 rounded-xl px-4 py-4 text-[#fbbf24] text-center font-mono focus:border-[#fbbf24] outline-none transition-all"
+                        autoFocus
+                    />
+                ) : (
+                    <div className="animate-pulse py-4">
+                        <p className="text-lg font-medium text-slate-200 font-mono tracking-wide">{secretMessage}</p>
+                    </div>
+                )}
+            </div>
         </div>
       )}
     </div>
