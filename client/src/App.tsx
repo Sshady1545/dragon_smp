@@ -263,29 +263,43 @@ function App() {
         </div>
       </main>
 
-{/* GOOGLE FORM MODAL (Geliştirilmiş Kapatma Tuşlu) */}
+{/* GOOGLE FORM MODAL (Z-Index ve Kapatma Butonu Düzenlenmiş) */}
 {showForm && (
-  <div className="fixed inset-0 z-[100] bg-black/85 flex items-center justify-center p-4 backdrop-blur-md" onClick={() => setShowForm(false)}>
-      <div className="bg-[#1a1a1a] border-2 border-red-600/50 w-full max-w-4xl h-[90vh] rounded-2xl relative flex flex-col overflow-hidden shadow-[0_0_30px_rgba(255,0,0,0.3)]" onClick={e => e.stopPropagation()}>
+  <div 
+    className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-2 sm:p-4 backdrop-blur-lg" 
+    onClick={() => setShowForm(false)}
+  >
+      <div 
+        className="bg-[#1a1a1a] border-2 border-red-600/40 w-full max-w-5xl h-[95vh] rounded-2xl relative flex flex-col overflow-hidden shadow-[0_0_50px_rgba(0,0,0,1)]" 
+        onClick={e => e.stopPropagation()}
+      >
           
-          {/* Üst Bar ve Belirgin Kapatma Tuşu */}
-          <div className="p-4 border-b border-white/10 flex justify-between items-center bg-[#222]">
-              <h3 className="text-white font-bold tracking-wider">DRAGONSMP YETKİ BAŞVURU FORMU</h3>
+          {/* Üst Bar */}
+          <div className="p-4 border-b border-white/10 flex justify-between items-center bg-[#111]">
+              <div className="flex items-center gap-3">
+                  <img src="/images/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
+                  <h3 className="text-white font-bold tracking-widest text-sm sm:text-base">BAŞVURU FORMU</h3>
+              </div>
+              
+              {/* Daha Belirgin ve Sıkışmayan Kapatma Tuşu */}
               <button 
                 onClick={() => setShowForm(false)} 
-                className="bg-red-600 hover:bg-red-700 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all transform hover:scale-110 shadow-lg"
+                className="bg-red-600 hover:bg-red-700 text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 active:scale-90 shadow-lg group"
               >
-                  <i className="fa-solid fa-xmark text-xl"></i>
+                  <i className="fa-solid fa-xmark text-xl group-hover:rotate-90 transition-transform"></i>
               </button>
           </div>
 
-          <iframe 
-              src={FORM_URL}
-              className="w-full flex-grow"
-              frameBorder="0" 
-          >
-              Yükleniyor...
-          </iframe>
+          {/* Form Alanı */}
+          <div className="flex-grow bg-white">
+              <iframe 
+                  src={FORM_URL}
+                  className="w-full h-full"
+                  frameBorder="0"
+              >
+                  Yükleniyor...
+              </iframe>
+          </div>
       </div>
   </div>
 )}
