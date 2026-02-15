@@ -31,22 +31,25 @@ function App() {
       if (!container) return;
       container.innerHTML = '';
       
-      for (let i = 0; i < 30; i++) {
+      // Ramazan teması için 40 adet parlayan altın yıldız
+      for (let i = 0; i < 40; i++) {
         const particle = document.createElement('div');
-        const size = Math.random() * 3 + 1;
+        const size = Math.random() * 2 + 1;
         const startX = Math.random() * 100;
         const startY = Math.random() * 100;
-        const duration = Math.random() * 20 + 15;
+        const duration = Math.random() * 4 + 3;
         const delay = Math.random() * 5;
         
         particle.style.cssText = `
           position: absolute;
           width: ${size}px;
           height: ${size}px;
-          background: radial-gradient(circle, rgba(255, 26, 26, 0.8) 0%, transparent 70%);
+          /* Kırmızı yerine Altın Sarısı Yıldızlar */
+          background: radial-gradient(circle, #fbbf24 0%, transparent 80%);
           border-radius: 50%;
           left: ${startX}%;
           top: ${startY}%;
+          box-shadow: 0 0 10px #fbbf24;
           animation: float-particle-${i} ${duration}s ease-in-out ${delay}s infinite;
           pointer-events: none;
         `;
@@ -54,10 +57,8 @@ function App() {
         const style = document.createElement('style');
         style.textContent = `
             @keyframes float-particle-${i} {
-                0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
-                10% { opacity: 0.8; }
-                50% { transform: translate(${(Math.random() - 0.5) * 100}px, ${(Math.random() - 0.5) * 100}px) scale(1.5); opacity: 1; }
-                90% { opacity: 0.8; }
+                0%, 100% { transform: scale(1); opacity: 0.2; }
+                50% { transform: scale(1.5); opacity: 0.8; }
             }
         `;
         document.head.appendChild(style);
@@ -126,7 +127,15 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen relative">
+      {/* RAMAZAN ARKA PLANI: Derin Lacivert Gradyan */}
+      <div className="fixed inset-0 z-[-2] bg-[#020617]" style={{ 
+        background: 'radial-gradient(circle at 50% -20%, #1e293b 0%, #020617 80%)' 
+      }}></div>
+
+      {/* CSS İLE HİLAL */}
+      <div className="fixed top-[10%] right-[15%] w-24 h-24 rounded-full shadow-[-15px_15px_0_0_#fbbf24] opacity-20 z-[-1] blur-[1px]"></div>
+
       <div className="particles-bg" id="particles"></div>
 
       <header className="top-nav">
@@ -212,7 +221,6 @@ function App() {
             <div className="hover-border"></div>
         </div>
 
-        {/* GÜNCELLENEN STATS KARTI (BAŞVURU KARTI OLDU) */}
         <div className="card stats-card" onClick={() => setShowForm(true)}>
             <div className="card-shine"></div>
             <div className="overlay">
@@ -263,7 +271,6 @@ function App() {
         </div>
       </main>
 
-{/* GOOGLE FORM MODAL (Z-Index ve Kapatma Butonu Düzenlenmiş) */}
 {showForm && (
   <div 
     className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-2 sm:p-4 backdrop-blur-lg" 
@@ -274,14 +281,12 @@ function App() {
         onClick={e => e.stopPropagation()}
       >
           
-          {/* Üst Bar */}
           <div className="p-4 border-b border-white/10 flex justify-between items-center bg-[#111]">
               <div className="flex items-center gap-3">
                   <img src="/images/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
                   <h3 className="text-white font-bold tracking-widest text-sm sm:text-base">BAŞVURU FORMU</h3>
               </div>
               
-              {/* Daha Belirgin ve Sıkışmayan Kapatma Tuşu */}
               <button 
                 onClick={() => setShowForm(false)} 
                 className="bg-red-600 hover:bg-red-700 text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 active:scale-90 shadow-lg group"
@@ -290,7 +295,6 @@ function App() {
               </button>
           </div>
 
-          {/* Form Alanı */}
           <div className="flex-grow bg-white">
               <iframe 
                   src={FORM_URL}
