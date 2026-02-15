@@ -3,18 +3,38 @@
 :root {
   --ramazan-gold: #fbbf24;
   --ramazan-navy: #020617;
+  --ramazan-glow: rgba(251, 191, 36, 0.1);
 }
 
 body {
-  @apply bg-[#020617] text-slate-200 antialiased overflow-x-hidden;
-  background: radial-gradient(circle at top center, #0f172a 0%, #020617 100%);
+  @apply text-slate-200 antialiased overflow-x-hidden;
+  /* Ramazan Gecesi Gradyanı */
+  background: radial-gradient(circle at 50% -20%, #1e293b 0%, #020617 80%);
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
-/* Kartlar için cam efekti */
+/* Hilal ve Işık Efekti */
+body::before {
+  content: "";
+  position: fixed;
+  top: 5%;
+  right: 10%;
+  width: 150px;
+  height: 150px;
+  background: #fde68a;
+  border-radius: 50%;
+  box-shadow: 0 0 60px 20px rgba(251, 191, 36, 0.2), inset -25px 0 0 0 #020617;
+  filter: blur(1px);
+  z-index: -1;
+  opacity: 0.6;
+}
+
+/* Kartları Ramazan temasına uyduralım */
 .ramazan-card {
-  @apply bg-slate-900/40 border border-white/5 backdrop-blur-md rounded-3xl transition-all duration-300;
+  @apply bg-slate-900/60 border border-amber-500/20 backdrop-blur-md rounded-3xl transition-all duration-300;
 }
 
 .ramazan-card:hover {
-  @apply border-amber-500/30 bg-slate-900/60 shadow-[0_0_30px_rgba(251,191,36,0.05)];
+  @apply border-amber-500/50 shadow-[0_0_30px_rgba(251,191,36,0.1)];
 }
