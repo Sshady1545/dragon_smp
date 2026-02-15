@@ -263,28 +263,32 @@ function App() {
         </div>
       </main>
 
-      {/* GOOGLE FORM MODAL (PENCERE) */}
-      {showForm && (
-        <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-md" onClick={() => setShowForm(false)}>
-            <div className="bg-[#1a1a1a] border border-red-500/30 w-full max-w-4xl h-[90vh] rounded-2xl relative flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
-                <div className="p-4 border-b border-white/10 flex justify-between items-center bg-[#222]">
-                    <h3 className="text-white font-bold tracking-wider">DRAGONSMP YETKİ BAŞVURU FORMU</h3>
-                    <button onClick={() => setShowForm(false)} className="text-white/50 hover:text-white transition-colors">
-                        <i className="fa-solid fa-xmark text-2xl"></i>
-                    </button>
-                </div>
-                <iframe 
-                    src={FORM_URL}
-                    className="w-full flex-grow"
-                    frameBorder="0" 
-                    marginHeight={0} 
-                    marginWidth={0}
-                >
-                    Yükleniyor...
-                </iframe>
-            </div>
-        </div>
-      )}
+{/* GOOGLE FORM MODAL (Geliştirilmiş Kapatma Tuşlu) */}
+{showForm && (
+  <div className="fixed inset-0 z-[100] bg-black/85 flex items-center justify-center p-4 backdrop-blur-md" onClick={() => setShowForm(false)}>
+      <div className="bg-[#1a1a1a] border-2 border-red-600/50 w-full max-w-4xl h-[90vh] rounded-2xl relative flex flex-col overflow-hidden shadow-[0_0_30px_rgba(255,0,0,0.3)]" onClick={e => e.stopPropagation()}>
+          
+          {/* Üst Bar ve Belirgin Kapatma Tuşu */}
+          <div className="p-4 border-b border-white/10 flex justify-between items-center bg-[#222]">
+              <h3 className="text-white font-bold tracking-wider">DRAGONSMP YETKİ BAŞVURU FORMU</h3>
+              <button 
+                onClick={() => setShowForm(false)} 
+                className="bg-red-600 hover:bg-red-700 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all transform hover:scale-110 shadow-lg"
+              >
+                  <i className="fa-solid fa-xmark text-xl"></i>
+              </button>
+          </div>
+
+          <iframe 
+              src={FORM_URL}
+              className="w-full flex-grow"
+              frameBorder="0" 
+          >
+              Yükleniyor...
+          </iframe>
+      </div>
+  </div>
+)}
 
       <div id="toast" className={`toast ${toast.show ? '' : 'hidden'}`}>
         <div className="toast-icon"><i className="fa-solid fa-check-circle"></i></div>
