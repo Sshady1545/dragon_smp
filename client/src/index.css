@@ -1,6 +1,15 @@
 @import "tailwindcss";
 
-/* Custom styles from legacy can be imported or pasted here */
+/* Ramazan Teması Ayarları */
 body {
-  @apply bg-gray-100 text-gray-900;
+  /* Arka planı derin bir gece mavisi, yazıları ise hafif krem rengi yapıyoruz */
+  @apply bg-[#0f172a] text-[#fef3c7] min-h-screen;
+  
+  /* Arka plana çok hafif bir parıltı veya desen eklemek istersen: */
+  background-image: radial-gradient(circle at top right, #1e293b, #0f172a);
+}
+
+/* Linkler ve Öne Çıkan Alanlar İçin Altın Sarısı */
+a, button {
+  @apply text-[#fbbf24] hover:text-[#f59e0b] transition-colors;
 }
